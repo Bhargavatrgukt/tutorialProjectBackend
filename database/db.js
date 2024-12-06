@@ -3,9 +3,13 @@ const path = require("path");
 
 const databasePath = path.join(__dirname, "..", "database.sqlite3");
 
-const db = new sqlite3.Database(databasePath, (err) =>
-  console.log(`error in the databse connection ${err.message}`)
-);
+const db = new sqlite3.Database(databasePath, (err) => {
+  if (err) {
+    console.error(`Error in the database connection: ${err.message}`);
+  } else {
+    console.log("Database connected successfully!");
+  }
+});
 
 const createTableQuery = `
 CREATE TABLE IF NOT EXISTS tutorials (
@@ -18,8 +22,10 @@ CREATE TABLE IF NOT EXISTS tutorials (
 
 db.run(createTableQuery, (err) => {
   if (err) {
-    console.error("Error creating table:", err.message);
+    console.error("Error creating table:", err);
   } else {
-    console.log("Tutorials table created or already exists.");
+    console.log("Tutorials table created exists.");
   }
 });
+
+module.exports = db;
