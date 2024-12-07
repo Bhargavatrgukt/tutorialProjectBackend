@@ -3,6 +3,9 @@ const {
   findTutorial,
   getTutorials,
   getPublishedTutorials,
+  updateTutorialById,
+  removeTutorial,
+  removeAllTutorial,
 } = require("../models/model");
 
 const addNewTutorial = async (req, res) => {
@@ -52,9 +55,50 @@ const publishedTutorials = async (req, res) => {
   }
 };
 
+const updateTutorial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const change = await updateTutorialById(id);
+    if (change === 0) {
+      return res.status(204).send("no content");
+    }
+    res.status(200).send("updated successfully");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const removeTutorialById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const change = await removeTutorial(id);
+    if (!change) {
+      return res.status(204).send("no content");
+    }
+    res.status(200).send("Deleted successfully");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const removeTutorials = async (req, res) => {
+  try {
+    const change = await removeAllTutorial();
+    if (!change) {
+      return res.status(204).send("no content");
+    }
+    res.status(200).send("Deleted All successfully");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addNewTutorial,
   findTutorialById,
   getAllTutorials,
   publishedTutorials,
+  updateTutorial,
+  removeTutorialById,
+  removeTutorials,
 };

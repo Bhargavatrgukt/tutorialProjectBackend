@@ -4,6 +4,9 @@ const {
   findTutorialById,
   getAllTutorials,
   publishedTutorials,
+  updateTutorial,
+  removeTutorialById,
+  removeTutorials,
 } = require("../controllers/controller");
 
 const router = express.Router();
@@ -21,5 +24,17 @@ router.get("/", (req, res) => {
     return publishedTutorials(req, res);
   }
 });
+
+//update a Tutorial by id
+
+router.put("/:id", updateTutorial);
+
+//delete a tutorial by Id
+
+router.delete("/:id", removeTutorialById);
+
+//remove all tutorials
+
+router.delete("/", removeTutorials);
 
 module.exports = router;
